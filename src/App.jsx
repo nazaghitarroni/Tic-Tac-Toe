@@ -133,7 +133,7 @@ const checkEndGame = (newBoard) =>{
                 {
                   winner === false
                   ? 'EMPATE'
-                  : `GANO:`
+                  : `GANO!:`
                 }
               </h2>
 
