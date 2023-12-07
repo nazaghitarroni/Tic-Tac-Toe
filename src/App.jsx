@@ -1,8 +1,12 @@
 import { useState } from "react"
+import confetti from "canvas-confetti"
+import cruz from './recursos/cross-23.svg'
+import circulo from './recursos/circulo.svg'
+
 
 const TURNS = {
-  X: 'x',
-  O: 'o'
+  X: <img src={cruz} alt="" />,
+  O: <img src={circulo} alt="" />
 }
 
 const Square = ({ children, isSelected , updateBoard, index}) => {
@@ -59,6 +63,10 @@ const resetGame = () =>{
   setWinner(null)
 }
 
+const checkEndGame = (newBoard) =>{
+  return newBoard.every((Square) => Square != null)
+}
+
 
   const updateBoard = (index) =>{
 
@@ -75,19 +83,19 @@ const resetGame = () =>{
    
     const newWinner = checkWinner(newBoard)
     if (newWinner){
+      confetti()
       setWinner(newWinner)
-    
-
+    } else if (checkEndGame(newBoard)){
+      setWinner(false)
     }
-
-
   }
-  
+
 
   return (
-    <main className="board">
-      <h1>Ta Te Ti</h1>
-      <section className="game">
+    <main className="w-fit my-6 mx-auto [&>button]:py-2 [&>button]:px-3 [&>button]:my-6 [&>button]:mx-auto [&>button]:bg-transparent [&>button]:border-2 [&>button]:border-solid [&>button]:w-24 [&>button]:rounded-md [&>button]:duration-200 [&>button]:font-bold [&>button]:cursor-pointer [&>button]:border-black" >
+      <h1 className="font-extrabold text-3xl flex justify-center">Ta-Te-Ti</h1>
+      <button id="BOTON2" className="flex justify-center" onClick={resetGame}>Reiniciar</button>
+      <section className="grid grid-cols-3 gap-3">
         {
           board.map((_, index) => {
             return (
@@ -104,7 +112,7 @@ const resetGame = () =>{
 
       </section>
 
-      <section className="turn">
+      <section className="flex justify-center my-4 mx-auto w-fit relative rounded-3xl [&>square]:w-16 [&>square]:h-16 pointer-events-none [&>Square]:border-transparent ">
         <Square isSelected={turn===TURNS.X}>
           {TURNS.X}
         </Square>
@@ -119,22 +127,22 @@ const resetGame = () =>{
       {
 
         winner != null &&(
-          <section className="winner">
-            <div className="text">
-              <h2>
+          <section className=" absolute w-screen h-screen top-0 left-0 grid place-items-center bg-black bg-opacity-40 [&>square]:w-16 [&>square]:h-16 [&>square]:pointer-events-none [&>square]:border-transparent">
+            <div className="text bg-cyan-200  h-72 w-80 rounded-xl flex flex-col justify-center items-center gap-5">
+              <h2 className="font-bold   pt-5 text-2xl">
                 {
                   winner === false
-                  ? 'Empate'
-                  : `Gano:`
+                  ? 'EMPATE'
+                  : `GANO:`
                 }
               </h2>
 
-                <header className="win">
+                <header className=" winner my-0 mx-auto w-fit border-2 border-solid border-white rounded-xl flex gap-4">
                   {winner && <Square>{winner}</Square>}
                 </header>
 
                 <footer>
-                  <button onClick={resetGame}>Volver a jugar!</button>
+                  <button id="BOTON" onClick={resetGame}>Volver a jugar!</button>
                 </footer>
 
 
